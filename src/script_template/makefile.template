@@ -1,0 +1,58 @@
+.PHONY: com sim saif clean regress
+
+MUL := mul
+
+OUTPUT = simv_top
+ALL_DEFINE = +define+DUMP_VPD
+
+# Code coverage command
+CM = -cm line+cond+fsm+branch+tgl
+CM_NAME = -cm_name ${{OUTPUT}}
+CM_DIR = -cm_dir ./${{OUTPUT}}.vdb
+
+# vpd file name
+VPD_NAME = +vpdfile+${{OUTPUT}}.vpd
+
+# Compile command
+VCS = vcs -sverilog +v2k -timescale=1ns/1ps       \
+      -debug_all                                  \
+      +notimingcheck                              \
+      +nospecify                                  \
+      +vcs+flush+all                              \
+      ${{ALL_DEFINE}}                               \
+      ${{VPD_NAME}}                                 \
+      -o  ${{OUTPUT}}                               \
+      -l  compile.log                             \
+      ${{CM_NAME}}                                  \
+      ${{CM_DIR}}
+
+# simulation command
+SIM = ./${{OUTPUT}}                \
+      ${{CM}} ${{CM_NAME}} ${{CM_DIR}} \
+      ${{VPD_NAME}}                \
+      -l ${{OUTPUT}}.log
+
+# generate saif command
+SAIF = vcd2saif -64 -input ${{OUTPUT}}.vpd -output ./saif/${{MUL}}.saif
+
+# all units
+units := {UNITS}
+
+# compile
+com:
+\t${{VCS}} /home/library/PDK/SCC28NHKCP_HDC40P140_RVT_V0p2/verilog/scc28nhkcp_hdc40p140_rvt.v ../mapped/${{MUL}}_synthesized.v ../tb/${{MUL}}_tb.v;
+
+# simulation
+sim:
+\t${{SIM}}
+
+# generate saif
+saif:
+\t${{SAIF}}
+
+clean:
+\trm -rf ./csrc  *.daidir  *.log  *.vpd  *.vdb  simv*  *.key  *race.out*
+
+# regress all units
+regress:
+\t{SAIF_DIR}$(foreach unit, ${{units}}, make clean; make com MUL=${{unit}}; make sim; make saif MUL=${{unit}};)
