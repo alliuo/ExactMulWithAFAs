@@ -39,15 +39,15 @@ def GenerateDCScript1(output_dir, mul_name_list):
         print(f'Generated {out_path}')
 
 
-def GenerateDCScript2(output_dir, unit_name_list):
+def GenerateDCScript2(output_dir, mul_name_list):
     """
     Generate scripts for DC synthesis
     """
     with open('./script_template/dc_step2_template.tcl', 'r') as f:
         template = f.read()
-    for unit_name in unit_name_list:
-        code = template.format(UNIT_NAME=unit_name)
-        out_path = os.path.join(output_dir, f'{unit_name}_step2.tcl')
+    for mul_name in mul_name_list:
+        code = template.format(UNIT_NAME=mul_name)
+        out_path = os.path.join(output_dir, f'{mul_name}_step2.tcl')
         with open(out_path, 'w') as fout:
             fout.write(code)
         print(f'Generated {out_path}')
