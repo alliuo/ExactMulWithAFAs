@@ -2,6 +2,24 @@ import os
 import math
 
 
+def GenerateTestBenchs(output_dir, mul_name_list, sign_type):
+    """
+    Generate the testbenchs for vcs simulation
+    """
+    with open('./script_template/testbench_template.v', 'r') as f:
+        template = f.read()
+
+    for mul_name in mul_name_list:
+        if sign_type == 'su':
+            code = template.format(UNIT_NAME=mul_name, INPUT0='s', INPUT1='u')
+        else:
+            code = template.format(UNIT_NAME=mul_name, INPUT0='a', INPUT1='b')
+        out_path = os.path.join(output_dir, f'{mul_name}_tb.v')
+        with open(out_path, 'w') as f:
+            f.write(code)
+        print(f'Generated {out_path}')
+
+
 def GenerateVCSMakefile(output_dir, mul_name_list):
     """
     Generate the makefie for vcs simulation
@@ -55,7 +73,7 @@ def GenerateDCScript2(output_dir, mul_name_list):
 
 def GenerateRUNScript(output_dir, mul_name_list, iter_num):
     """
-    The shell script uesed to run the synthesis
+    The shell script used to run the synthesis
     """
     code = f"""
 #!/bin/bash
