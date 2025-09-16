@@ -27,9 +27,26 @@ Exact recursive multipliers designed based on customized approximate full adders
 
 The 8x8 multipliers are constructed by exhaustively traversing all possible combinations of Pareto-optimal 4×4 multipliers. The results presented here are the Pareto-optimal 8×8 multipliers identified under our experimental setup.
 
-To design multipliers based on synthesis tools, modify the provided [script_template](src\script_template) to suit your specific environment, and execute
+To design multipliers based on synthesis tools, modify the provided [script_template](src/script_template) to suit your specific environment, and execute
 ```bash
 cd src
 python main.py
 ```
 Then all candidate multipliers and their synthesis scripts are generated. By synthesizing and comparing these candidates, the Pareto-optimal multipliers can be identified.
+
+## Citation
+If you use these multipliers in your research, please refer the following paper:
+
+A. Liu et al., "Low-Power Multiplier Designs by Leveraging Correlations of 2×2 Encoded Partial Products," in IEEE Transactions on Computers, doi: 10.1109/TC.2025.3604478.
+
+```bibtex
+@ARTICLE{11146894,
+  author={Liu, Ao and Liu, Siting and Wang, Hui and Wang, Qin and Lombardi, Fabrizio and Mao, Zhigang and Jiang, Honglan},
+  journal={IEEE Transactions on Computers}, 
+  title={Low-Power Multiplier Designs by Leveraging Correlations of 2×2 Encoded Partial Products}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-8},
+  doi={10.1109/TC.2025.3604478}}
+
