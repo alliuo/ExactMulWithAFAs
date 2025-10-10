@@ -40,13 +40,14 @@ If you use these multipliers in your research, please refer the following paper:
 A. Liu et al., "Low-Power Multiplier Designs by Leveraging Correlations of 2×2 Encoded Partial Products," in IEEE Transactions on Computers, doi: 10.1109/TC.2025.3604478.
 
 ```bibtex
-@ARTICLE{11146894,
+@article{liu2025low,
+  title={Low-Power Multiplier Designs by Leveraging Correlations of 2$\times$2 Encoded Partial Products},
   author={Liu, Ao and Liu, Siting and Wang, Hui and Wang, Qin and Lombardi, Fabrizio and Mao, Zhigang and Jiang, Honglan},
-  journal={IEEE Transactions on Computers}, 
-  title={Low-Power Multiplier Designs by Leveraging Correlations of 2×2 Encoded Partial Products}, 
+  journal={IEEE Transactions on Computers},
   year={2025},
-  volume={},
-  number={},
-  pages={1-8},
+  volume={74},
+  number={11},
+  pages={3888-3896},
+  publisher={IEEE},
   doi={10.1109/TC.2025.3604478}}
 
