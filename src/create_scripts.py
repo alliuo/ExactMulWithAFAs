@@ -28,9 +28,10 @@ def GenerateVCSMakefile(output_dir, mul_name_list):
     with open('./script_template/makefile.template', 'r') as f:
         template = f.read()
 
-    iter_num = math.ceil(len(mul_name_list) / 1000) # A makefile can contain up to 1000 multipliers.
+    batch_size = 1000
+    iter_num = math.ceil(len(mul_name_list) / batch_size)
     for i in range(iter_num):
-        units_str = ' '.join(mul_name_list)
+        units_str = ' '.join(mul_name_list[i * batch_size:(i + 1) * batch_size])
         if(i == 0):
             code = template.format(SAIF_DIR='rm -rf ./saif; mkdir ./saif; ', UNITS=units_str)
         else:
@@ -80,7 +81,7 @@ def GenerateRUNScript(output_dir, mul_name_list, iter_num):
 
 for unit in {' '.join(mul_name_list)}
 do
-    rm -rf ./run"
+    rm -rf ./run
     mkdir run
     cd run
     dc_shell -f ../dc_step1/${{unit}}_step1.tcl
@@ -97,7 +98,7 @@ done
 
 for unit in {' '.join(mul_name_list)}
 do
-    rm -rf ./run"
+    rm -rf ./run
     mkdir run
     cd run
     dc_shell -f ../dc_step2/${{unit}}_step2.tcl

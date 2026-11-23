@@ -4,9 +4,8 @@ set link_library        "* $target_library"
 
 set top "{UNIT_NAME}"
 
-analyze -format sverilog -vcs [glob -nocomplain -directory ../../../../2x2/*.v]
-analyze -format sverilog -vcs [glob -nocomplain -directory ../../../../units/HA.v]
-analyze -format sverilog -vcs [glob -nocomplain -directory ../../../../units/FA.v]
+analyze -format sverilog [concat [glob -directory ../../../../2x2 *.v] \
+    [list ../../../../units/HA.v ../../../../units/FA.v ../rtl/{UNIT_NAME}.v]]
 elaborate $top
 current_design $top
 check_design

@@ -1,5 +1,4 @@
 import os
-import shutil
 from create_scripts import *
 from create_rtl import *
 
@@ -12,15 +11,9 @@ def GenerateAll(target_path, sign_type):
     makefile_path = os.path.join(target_path, 'makefile')
     vcs_path = os.path.join(target_path, 'vcs')
 
-    if os.path.exists(target_path):
-        shutil.rmtree(target_path)
-    os.makedirs(target_path)
-    os.mkdir(rtl_path)
-    os.mkdir(tb_path)
-    os.mkdir(dc_step1_path)
-    os.mkdir(dc_step2_path)
-    os.mkdir(makefile_path)
-    os.mkdir(vcs_path)
+    for path in (rtl_path, tb_path, dc_step1_path, dc_step2_path, makefile_path,
+                 vcs_path, os.path.join(target_path, 'mapped'), os.path.join(target_path, 'out')):
+        os.makedirs(path, exist_ok=True)
 
     if sign_type == 'u':
         name_list = CodeU(rtl_path)
