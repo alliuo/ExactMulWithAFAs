@@ -78,31 +78,34 @@ def GenerateRUNScript(output_dir, mul_name_list, iter_num):
     """
     code = f"""
 #!/bin/bash
+script_path=$(realpath -e -- "${{BASH_SOURCE[0]}}") || exit 1
+script_dir=$(dirname -- "$script_path") || exit 1
+cd -- "$script_dir" || exit 1
 
 for unit in {' '.join(mul_name_list)}
 do
     rm -rf ./run
     mkdir run
-    cd run
+    cd ./run || exit 1
     dc_shell -f ../dc_step1/${{unit}}_step1.tcl
-    cd ..
+    cd -- "$script_dir" || exit 1
 done
 
 for file in {' '.join(['makefile'+str(i) for i in range(iter_num)])}
 do
     mv ./makefile/${{file}} ./vcs/makefile
-    cd vcs
+    cd ./vcs || exit 1
     make regress
-    cd ..
+    cd -- "$script_dir" || exit 1
 done
 
 for unit in {' '.join(mul_name_list)}
 do
     rm -rf ./run
     mkdir run
-    cd run
+    cd ./run || exit 1
     dc_shell -f ../dc_step2/${{unit}}_step2.tcl
-    cd ..
+    cd -- "$script_dir" || exit 1
 done
 """
     out_path = os.path.join(output_dir, 'run.sh')
